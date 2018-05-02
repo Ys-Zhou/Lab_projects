@@ -1,4 +1,5 @@
 import mysql.connector
+import mysql.connector.errors
 
 
 # Singleton pattern decorator
@@ -15,7 +16,7 @@ def singleton(cls, *args, **kw):
 
 # Get database connection
 @singleton
-class _DBConnector:
+class DBConnector:
 
     def __init__(self):
         user = 'root'
@@ -25,7 +26,8 @@ class _DBConnector:
         self.__set_utf8mb4()
 
     def __del__(self):
-        self.__cnx.close()
+        if hasattr(self, '__cnx'):
+            self.__cnx.close()
 
     def __set_utf8mb4(self):
         cur = self.__cnx.cursor(buffered=True)
@@ -35,16 +37,3 @@ class _DBConnector:
 
     def get_cnx(self):
         return self.__cnx
-
-
-class GetCursor:
-
-    def __enter__(self):
-        self.__cnx = _DBConnector().get_cnx()
-        self.__cur = self.__cnx.cursor(buffered=True)
-        return self.__cur
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        self.__cur.close()
-        if exc_type is None:
-            self.__cnx.commit()
