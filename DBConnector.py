@@ -14,9 +14,9 @@ def singleton(cls, *args, **kw):
     return _singleton
 
 
-# Get database connection
+# Get a database connection
 @singleton
-class DBConnector:
+class _DBConnector:
 
     def __init__(self):
         user = 'root'
@@ -37,3 +37,19 @@ class DBConnector:
 
     def get_cnx(self):
         return self.__cnx
+
+
+# Create a cursor
+class GetCursor:
+
+    def __enter__(self):
+        self.__cnx = _DBConnector().get_cnx()
+        self.__cur = self.__cnx.cursor()
+        return self.__cur
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_tb is None:
+            self.__cnx.commit()
+        else:
+            self.__cnx.rollback()
+        self.__cur.close()

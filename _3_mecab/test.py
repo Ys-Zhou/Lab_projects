@@ -1,6 +1,5 @@
 import MeCab
-from DBConnector import DBConnector
-import mysql.connector.errors
+from DBConnector import GetCursor
 
 # Get tagger
 tagger = MeCab.Tagger()
@@ -9,20 +8,17 @@ tagger = MeCab.Tagger()
 genkei_flt = ['*']
 hinshi_flt = ['BOS/EOS', '記号']
 
-# Create a Database connection
-cnx = DBConnector().get_cnx()
-# Get a cursor from connection
-cur = cnx.cursor()
 # Insert SQL template
 insert = 'INSERT INTO `lab`.`bow2` (`genkei`, `hinshi`) VALUES (%s, %s)'
 
-try:
+# Create a cursor
+with GetCursor() as cur:
     # Read text: files -> file -> line
-    for file_num in range(1, 6):
+    for file_num in range(1, 2):
         file_name = '../_2_parse_page/%d.txt' % file_num
         with open(file_name, 'r', encoding='utf-8') as f:
             for line in f:
-                # Parse each word, better than parse() and parseToString()
+                # Parse each word
                 word = tagger.parseToNode(line)
                 while word:
                     feature_list = word.feature.split(',')
@@ -31,11 +27,3 @@ try:
                     if genkei not in genkei_flt and hinshi not in hinshi_flt:
                         cur.execute(insert, (genkei, hinshi))
                     word = word.next
-except mysql.connector.errors.Error as e:
-    print(e)
-    cnx.rollback()
-else:
-    cnx.commit()
-finally:
-    cur.close()
-    # cnx.close() should be added here if connection pool is not used
