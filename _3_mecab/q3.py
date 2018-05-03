@@ -16,8 +16,8 @@ with GetCursor() as cur:
     # Read text: files -> file -> line
     for file_num in range(1, 2):
         file_name = '../_2_parse_page/%d.txt' % file_num
-        with open(file_name, 'r', encoding='utf-8') as f:
-            for line in f:
+        with open(file_name, 'r', encoding='utf-8') as fl:
+            for line in fl:
                 # Parse each word
                 word = tagger.parseToNode(line)
                 while word:
