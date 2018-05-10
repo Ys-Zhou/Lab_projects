@@ -25,7 +25,7 @@ class _DBConnector:
             'charset': 'utf8mb4',
             'collation': 'utf8mb4_unicode_ci',
             'pool_name': 'my_pool',
-            'pool_size': 3
+            'pool_size': 5
         }
         self.__cnx_pool = mysql.connector.pooling.MySQLConnectionPool(**cnf)
 
