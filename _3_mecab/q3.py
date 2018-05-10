@@ -5,7 +5,7 @@ from DBConnector import GetCursor
 # Get tagger
 tagger = MeCab.Tagger()
 
-# Word filters
+# Unwilling words
 ng_genkei = ['*']
 ng_hinshi = ['BOS/EOS', '記号']
 
@@ -20,9 +20,11 @@ class ParseFileThread(threading.Thread):
         self.__file_path = file_path
 
     def run(self):
+        print('Start parse file: %s' % self.__file_path)
         self.__do_parse()
 
     def __do_parse(self):
+        # Insert values
         values = []
 
         with open(self.__file_path, 'r', encoding='utf-8') as fl:
@@ -37,9 +39,19 @@ class ParseFileThread(threading.Thread):
                         values.append((genkei, hinshi))
                     word = word.next
 
+        # Execute query
         with GetCursor() as cur:
             cur.executemany(insert, values)
 
 
-for file_num in range(1, 2):
-    file_path_ = '../_2_parse_page/%d.txt' % file_num
+if __name__ == '__main__':
+
+    thread_pool = []
+
+    for file_num in range(1, 6):
+        thread = ParseFileThread('../_2_parse_page/%d.txt' % file_num)
+        thread.start()
+        thread_pool.append(thread)
+
+    for thread in thread_pool:
+        thread.join()
