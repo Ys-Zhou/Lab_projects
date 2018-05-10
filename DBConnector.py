@@ -22,6 +22,7 @@ class _DBConnector:
             'user': 'root',
             'password': 'zhou',
             'host': 'localhost',
+            'port': 3306,
             'charset': 'utf8mb4',
             'collation': 'utf8mb4_unicode_ci',
             'pool_name': 'my_pool',
@@ -29,15 +30,15 @@ class _DBConnector:
         }
         self.__cnx_pool = mysql.connector.pooling.MySQLConnectionPool(**cnf)
 
-    def get_cnx_pool(self):
+    def get_connection_pool(self):
         return self.__cnx_pool
 
 
-# Create a cursor in a connection
+# Create a cursor from a connection
 class GetCursor:
 
     def __enter__(self):
-        self.__cnx = _DBConnector().get_cnx_pool().get_connection()
+        self.__cnx = _DBConnector().get_connection_pool().get_connection()
         self.__cur = self.__cnx.cursor()
         return self.__cur
 
