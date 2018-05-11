@@ -1,6 +1,6 @@
 import oauth2
 import json
-import xml.etree.cElementTree as et
+import xml.etree.cElementTree as cElementTree
 
 
 # Singleton pattern decorator
@@ -19,7 +19,7 @@ def singleton(cls, *args, **kw):
 class TwitterConnector:
 
     def __init__(self):
-        xml_tree = et.parse('config.xml')
+        xml_tree = cElementTree.parse('config.xml')
 
         consumer_node = xml_tree.find('consumer')
         csm_k = consumer_node.find('key').text
@@ -33,7 +33,7 @@ class TwitterConnector:
 
         self.client = oauth2.Client(consumer, token)
 
-    def get_json_req(self, url: str, params: dict = None):
+    def get_json_res(self, url: str, params: dict = None):
         res, text = self.__oauth_req(url, params)
         if res['status'] == '200':
             return json.loads(text)
