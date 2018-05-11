@@ -1,28 +1,55 @@
 import oauth2
 import json
- 
+import xml.etree.cElementTree as et
 
+
+# Singleton pattern decorator
+def singleton(cls, *args, **kw):
+    instance = {}
+
+    def _singleton():
+        if cls not in instance:
+            instance[cls] = cls(*args, **kw)
+        return instance[cls]
+
+    return _singleton
+
+
+@singleton
 class TwitterConnector:
 
     def __init__(self):
-        api_k = 'nMHgXLTw05yT1f8sQxkgXidxG'  # API Key
-        api_s = 'hrxokm8ErYfA8pt2n2LaIfAHv2x1qv2sz2IxvQaoyMkF4qPzOq'  # API Secret
-        at = '736421314366312448-0Hg5SeJvi9C7updp62rP9PzDRkcANjP'  # Access Token
-        at_s = 'ByWdBKaJ06Qi4hCkubIhTdE5BMXKgo8jEWqh1HNMGeufM'  # Accesss Token Secert
+        xml_tree = et.parse('config.xml')
 
-    def oauth_req(self, url, http_method='GET', post_body='', http_headers=None):
-        consumer = oauth2.Consumer(key=CONSUMER_KEY, secret=CONSUMER_SECRET)
-        token = oauth2.Token(key=key, secret=secret)
-        client = oauth2.Client(consumer, token)
-        resp, content = client.request(url, method=http_method, body=post_body, headers=http_headers)
-        return content
+        consumer_node = xml_tree.find('consumer')
+        csm_k = consumer_node.find('key').text
+        csm_s = consumer_node.find('secret').text
+        consumer = oauth2.Consumer(key=csm_k, secret=csm_s)
 
-    # def getJSON(self, iUrl, iParams):
-    #
-    #     req = self.__twitter.get(iUrl, params=iParams)
-    #     if req.status_code == 200:
-    #         text = json.loads(req.text)
-    #         return text
-    #     else:
-    #         # Report error
-    #         print("Error: %d" % req.status_code)
+        token_node = xml_tree.find('token')
+        tkn_k = token_node.find('key').text
+        tkn_s = token_node.find('secret').text
+        token = oauth2.Token(key=tkn_k, secret=tkn_s)
+
+        self.client = oauth2.Client(consumer, token)
+
+    def get_json_req(self, url: str, params: dict = None):
+        res, text = self.__oauth_req(url, params)
+        if res['status'] == '200':
+            return json.loads(text)
+        else:
+            raise RuntimeError('Http code: %s' % res['status'])
+
+    def __oauth_req(self, url: str, params: dict = None):
+        if params is not None:
+            is_first = True
+            for param in params.items():
+                if is_first:
+                    url += '?%s=%s' % param
+                    is_first = False
+                else:
+                    url += '&%s=%s' % param
+
+        res, content = self.client. \
+            request(url, method='GET', body=''.encode('utf-8'), headers=None)
+        return res, content.decode('utf-8')

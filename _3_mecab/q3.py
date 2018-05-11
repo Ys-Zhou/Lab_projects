@@ -15,7 +15,7 @@ insert = 'INSERT INTO `lab`.`bow2` (`kiji`, `genkei`, `hinshi`) VALUES (%s, %s, 
 
 class ParseFileThread(threading.Thread):
 
-    def __init__(self, file_num):
+    def __init__(self, file_num: int):
         super(ParseFileThread, self).__init__()
         self.__file_num = file_num
 
