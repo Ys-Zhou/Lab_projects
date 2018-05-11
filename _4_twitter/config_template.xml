@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<twitter>
+    <consumer>
+        <key>Consumer key here</key>
+        <secret>Consumer secret here</secret>
+    </consumer>
+    <token>
+        <key>Access token key here</key>
+        <secret>Access token secret here</secret>
+    </token>
+</twitter>

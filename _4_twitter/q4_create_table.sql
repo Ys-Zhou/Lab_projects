@@ -1,5 +1,5 @@
-CREATE TABLE `lab`.`tweets` (
-  `id` VARCHAR(20) NOT NULL,
-  `user` VARCHAR(20) NOT NULL,
-  `text` VARCHAR(280) NOT NULL,
-  PRIMARY KEY (`id`));
+CREATE TABLE lab.tweets (
+  id   VARCHAR(20) PRIMARY KEY,
+  user VARCHAR(20)  NOT NULL,
+  text VARCHAR(280) NOT NULL
+);
