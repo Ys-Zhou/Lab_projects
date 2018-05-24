@@ -1,4 +1,4 @@
-from _4_twitter.TwitterConnector import TwitterConnector
+from TwitterConnector import TwitterConnector
 from DBConnector import GetCursor
 
 # https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline

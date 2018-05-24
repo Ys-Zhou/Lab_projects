@@ -1,4 +1,5 @@
 import oauth2
+import os
 import json
 import xml.etree.cElementTree as cElementTree
 
@@ -19,7 +20,7 @@ def singleton(cls, *args, **kw):
 class TwitterConnector:
 
     def __init__(self):
-        xml_tree = cElementTree.parse('config.xml')
+        xml_tree = cElementTree.parse(os.path.join(os.path.dirname(__file__), 'config.xml'))
 
         consumer_node = xml_tree.find('consumer')
         csm_k = consumer_node.find('key').text
