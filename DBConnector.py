@@ -24,7 +24,6 @@ class _DBConnector:
             'host': 'localhost',
             'port': 3306,
             'charset': 'utf8mb4',
-            'collation': 'utf8mb4_unicode_ci',
             'pool_name': 'my_pool',
             'pool_size': 5
         }
