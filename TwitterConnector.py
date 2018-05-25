@@ -1,7 +1,8 @@
 import oauth2
 import os
 import json
-import xml.etree.cElementTree as cElementTree
+import urllib.parse
+import xml.etree.cElementTree
 
 
 # Singleton pattern decorator
@@ -20,7 +21,7 @@ def singleton(cls, *args, **kw):
 class TwitterConnector:
 
     def __init__(self):
-        xml_tree = cElementTree.parse(os.path.join(os.path.dirname(__file__), 'config.xml'))
+        xml_tree = xml.etree.cElementTree.parse(os.path.join(os.path.dirname(__file__), 'config.xml'))
 
         consumer_node = xml_tree.find('consumer')
         csm_k = consumer_node.find('key').text
@@ -32,7 +33,19 @@ class TwitterConnector:
         tkn_s = token_node.find('secret').text
         token = oauth2.Token(key=tkn_k, secret=tkn_s)
 
-        self.client = oauth2.Client(consumer, token)
+        self.__client = oauth2.Client(consumer, token)
+
+    def __oauth_req(self, url: str, params: dict = None):
+        # Add parameters to url
+        if params is not None:
+            url_parts = list(urllib.parse.urlparse(url))
+            now_params = dict(urllib.parse.parse_qsl(url_parts[4]))
+            now_params.update(params)
+            url_parts[4] = urllib.parse.urlencode(now_params)
+            url = urllib.parse.urlunparse(url_parts)
+
+        res, content = self.__client.request(url, method='GET', body=''.encode('utf-8'), headers=None)
+        return res, content.decode('utf-8')
 
     def get_json_res(self, url: str, params: dict = None):
         res, text = self.__oauth_req(url, params)
@@ -40,17 +53,3 @@ class TwitterConnector:
             return json.loads(text)
         else:
             raise RuntimeError('Http code: %s' % res['status'])
-
-    def __oauth_req(self, url: str, params: dict = None):
-        if params is not None:
-            is_first = True
-            for param in params.items():
-                if is_first:
-                    url += '?%s=%s' % param
-                    is_first = False
-                else:
-                    url += '&%s=%s' % param
-
-        res, content = self.client. \
-            request(url, method='GET', body=''.encode('utf-8'), headers=None)
-        return res, content.decode('utf-8')

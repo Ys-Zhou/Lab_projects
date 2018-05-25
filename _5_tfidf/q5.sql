@@ -18,7 +18,7 @@ FROM (
          JOIN lab.tfidf AS b
            ON a.uid > b.uid AND a.word = b.word
        GROUP BY a.uid, b.uid
-     ) sub1
+     ) AS sub1
   JOIN cte AS sub2
     ON sub1.u1 = sub2.uid
   JOIN cte AS sub3
