@@ -10,7 +10,7 @@ ng_genkei = ['*']
 ng_hinshi = ['BOS/EOS', '記号']
 
 # Template of insert query
-insert = 'INSERT INTO lab.bow2 (kiji, genkei, hinshi) VALUES (%s, %s, %s)'
+insert = 'INSERT INTO bow2 (kiji, genkei, hinshi) VALUES (%s, %s, %s)'
 
 
 class ParseFileThread(threading.Thread):

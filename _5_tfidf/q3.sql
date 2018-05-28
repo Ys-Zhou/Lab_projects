@@ -1,6 +1,6 @@
-INSERT INTO lab.df (word, df)
+INSERT INTO df (word, df)
   SELECT
     word,
     COUNT(*) AS df
-  FROM lab.tf
+  FROM tf
   GROUP BY word;

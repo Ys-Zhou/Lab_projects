@@ -1,6 +1,6 @@
 SELECT
-  `kiji`,
-  `hinshi`,
+  kiji,
+  hinshi,
   COUNT(*)
-FROM `lab`.`bow2`
-GROUP BY `kiji`, `hinshi`;
+FROM bow2
+GROUP BY kiji, hinshi;

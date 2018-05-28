@@ -14,7 +14,7 @@ def get_tweets(screen_name: str, count: int = 100):
     for tweet in tweets:
         tweet_list.append(tweet['text'])
 
-    insert = 'INSERT INTO lab.docs (uid, tweets) VALUES (%s, %s)'
+    insert = 'INSERT INTO docs (uid, tweets) VALUES (%s, %s)'
     with GetCursor() as cur:
         cur.execute(insert, (uid, ' '.join(tweet_list)))
 

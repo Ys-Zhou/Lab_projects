@@ -12,6 +12,6 @@ values = []
 for tweet in TwitterConnector().get_json_res(url, params):
     values.append((tweet['id_str'], tweet['user']['name'], tweet['text']))
 
-insert = 'INSERT INTO lab.tweets (id, user, text) VALUES (%s, %s, %s)'
+insert = 'INSERT INTO tweets (id, user, text) VALUES (%s, %s, %s)'
 with GetCursor() as cur:
     cur.executemany(insert, values)

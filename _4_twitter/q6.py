@@ -15,13 +15,13 @@ def get_tweets(user_id: str):
     for tweet in TwitterConnector().get_json_res(url, params):
         values.append((tweet['id_str'], tweet['user']['name'], tweet['text']))
 
-    insert = 'INSERT INTO lab.tweets (id, user, text) VALUES (%s, %s, %s)'
+    insert = 'INSERT INTO tweets (id, user, text) VALUES (%s, %s, %s)'
     with GetCursor() as cur_1:
         cur_1.executemany(insert, values)
 
 
 if __name__ == '__main__':
-    query = 'SELECT DISTINCT follow_id FROM lab.followee'
+    query = 'SELECT DISTINCT follow_id FROM followee'
     with GetCursor() as cur:
         cur.execute(query)
         for row in cur:

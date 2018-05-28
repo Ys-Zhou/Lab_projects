@@ -10,6 +10,6 @@ values = []
 for friend_id in TwitterConnector().get_json_res(url)['ids']:
     values.append((my_id, friend_id))
 
-insert = 'INSERT INTO lab.followee (from_id, follow_id) VALUES (%s, %s)'
+insert = 'INSERT INTO followee (from_id, follow_id) VALUES (%s, %s)'
 with GetCursor() as cur:
     cur.executemany(insert, values)

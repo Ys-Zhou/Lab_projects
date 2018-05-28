@@ -23,6 +23,7 @@ class _DBConnector:
             'password': 'zhou',
             'host': 'localhost',
             'port': 3306,
+            'database': 'lab',
             'charset': 'utf8mb4',
             'pool_name': 'my_pool',
             'pool_size': 5

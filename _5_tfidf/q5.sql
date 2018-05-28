@@ -2,7 +2,7 @@ WITH cte AS (
     SELECT
       uid,
       SQRT(SUM(POW(tfidf, 2))) AS norm
-    FROM lab.tfidf
+    FROM tfidf
     GROUP BY uid
 )
 SELECT
@@ -14,8 +14,8 @@ FROM (
          a.uid                  AS u1,
          b.uid                  AS u2,
          SUM(a.tfidf * b.tfidf) AS dot
-       FROM lab.tfidf AS a
-         JOIN lab.tfidf AS b
+       FROM tfidf AS a
+         JOIN tfidf AS b
            ON a.uid > b.uid AND a.word = b.word
        GROUP BY a.uid, b.uid
      ) AS sub1
