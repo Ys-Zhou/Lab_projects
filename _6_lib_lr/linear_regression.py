@@ -10,18 +10,18 @@ df = pd.read_csv('bento.csv')
 df['youbi'] = df['youbi'].map({'月': 0, '火': 1, '水': 2, '木': 3, '金': 4})
 df['weather'] = df['weather'].map({'快晴': 0, '晴れ': 1, '薄曇': 2, '曇': 3, '雨': 4, '雪': 5, '雷電': 6})
 
-# Choose reference and destination
+# Choose reference(x) and destination(y)
 x = df[['youbi', 'weather', 'temp']]
 y = df[['num_sales']]
 
-# Divide data into train data and test data
+# Split data into train data and test data
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
 # Train linear regression model
 lr = LinearRegression()
 lr.fit(x_train, y_train)
 
-# prediction of test data
+# Predict
 y_pred = lr.predict(x_test)
 
 # Use RMSE to evaluate model
