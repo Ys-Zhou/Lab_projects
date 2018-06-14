@@ -1,8 +1,9 @@
-import mysql.connector.pooling
+from mysql.connector.pooling import MySQLConnectionPool
+from mysql.connector.cursor import MySQLCursor
 
 
 # Singleton pattern decorator
-def singleton(cls, *args, **kw):
+def singleton(cls: type, *args, **kw):
     instance = {}
 
     def _singleton():
@@ -28,16 +29,16 @@ class _DBConnector:
             'pool_name': 'my_pool',
             'pool_size': 5
         }
-        self.__cnx_pool = mysql.connector.pooling.MySQLConnectionPool(**cnf)
+        self.__cnx_pool = MySQLConnectionPool(**cnf)
 
-    def get_connection_pool(self):
+    def get_connection_pool(self) -> MySQLConnectionPool:
         return self.__cnx_pool
 
 
 # Create a cursor from a connection
 class GetCursor:
 
-    def __enter__(self):
+    def __enter__(self) -> MySQLCursor:
         self.__cnx = _DBConnector().get_connection_pool().get_connection()
         self.__cur = self.__cnx.cursor()
         return self.__cur

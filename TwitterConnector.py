@@ -1,12 +1,12 @@
 import oauth2
-import os
+import os.path
 import json
 import urllib.parse
-import xml.etree.cElementTree
+from xml.etree import cElementTree
 
 
 # Singleton pattern decorator
-def singleton(cls, *args, **kw):
+def singleton(cls: type, *args, **kw):
     instance = {}
 
     def _singleton():
@@ -21,7 +21,7 @@ def singleton(cls, *args, **kw):
 class TwitterConnector:
 
     def __init__(self):
-        xml_tree = xml.etree.cElementTree.parse(os.path.join(os.path.dirname(__file__), 'config.xml'))
+        xml_tree = cElementTree.parse(os.path.join(os.path.dirname(__file__), 'config.xml'))
 
         consumer_node = xml_tree.find('consumer')
         csm_k = consumer_node.find('key').text
@@ -35,7 +35,7 @@ class TwitterConnector:
 
         self.__client = oauth2.Client(consumer, token)
 
-    def __oauth_req(self, url: str, params: dict = None):
+    def __oauth_req(self, url: str, params: dict = None) -> (dict, str):
         # Add parameters to url
         if params is not None:
             url_parts = list(urllib.parse.urlparse(url))
