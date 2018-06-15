@@ -1,5 +1,4 @@
-CREATE TABLE lab.tf
-(
+CREATE TABLE lab.tf (
   uid  VARCHAR(20),
   word VARCHAR(20),
   tf   DOUBLE NOT NULL,

@@ -15,12 +15,9 @@ FROM (
          b.uid                  AS u2,
          SUM(a.tfidf * b.tfidf) AS dot
        FROM tfidf AS a
-         JOIN tfidf AS b
-           ON a.uid > b.uid AND a.word = b.word
+         JOIN tfidf AS b ON a.uid > b.uid AND a.word = b.word
        GROUP BY a.uid, b.uid
      ) AS sub1
-  JOIN cte AS sub2
-    ON sub1.u1 = sub2.uid
-  JOIN cte AS sub3
-    ON sub1.u2 = sub3.uid
+  JOIN cte AS sub2 ON sub1.u1 = sub2.uid
+  JOIN cte AS sub3 ON sub1.u2 = sub3.uid
 ORDER BY sim DESC;

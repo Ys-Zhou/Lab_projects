@@ -4,7 +4,8 @@ INSERT INTO tfidf (uid, word, tfidf)
     tf.word,
     tf.tf * LOG(cnt.d / (df.df + 1)) AS tfidf
   FROM tf
-    JOIN df
-      ON tf.word = df.word
-    JOIN (SELECT COUNT(DISTINCT uid) AS d
-          FROM tf) cnt;
+    JOIN df ON tf.word = df.word
+    JOIN (
+           SELECT COUNT(DISTINCT uid) AS d
+           FROM tf
+         ) AS cnt;
