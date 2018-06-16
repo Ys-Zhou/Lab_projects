@@ -1,7 +1,7 @@
 SELECT
   inter.usera,
   inter.userb,
-  inter.cnt / MIN(num.cnt) AS sp
+  inter.cnt / MIN(num.cnt) AS simp
 FROM (
        SELECT
          a.uid    AS usera,
@@ -19,4 +19,4 @@ FROM (
          GROUP BY uid
        ) AS num ON inter.usera = num.uid OR inter.userb = num.uid
 GROUP BY usera, userb
-ORDER BY sp DESC;
+ORDER BY simp DESC;

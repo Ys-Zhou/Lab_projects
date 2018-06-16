@@ -8,11 +8,10 @@ WITH cte AS (
 SELECT
   inter.usera,
   inter.userb,
-  inter.cnt / (
-    CASE WHEN ctea.cnt < cteb.cnt
-      THEN ctea.cnt
-    ELSE cteb.cnt END
-  ) AS sp
+  inter.cnt / CASE
+              WHEN ctea.cnt < cteb.cnt
+                THEN ctea.cnt
+              ELSE cteb.cnt END AS simp
 FROM (
        SELECT
          a.uid    AS usera,
@@ -24,4 +23,4 @@ FROM (
      ) AS inter
   JOIN cte AS ctea ON inter.usera = ctea.uid
   JOIN cte AS cteb ON inter.userb = cteb.uid
-ORDER BY sps DESC;
+ORDER BY simp DESC;
