@@ -7,7 +7,7 @@ from sklearn.metrics import mean_squared_error
 
 # %%
 # Read data
-df = pd.read_csv('_6_lib_lr/bento.csv')
+df = pd.read_csv('_6.0_sklearn/bento.csv')
 
 # %%
 # Map data from str to int
