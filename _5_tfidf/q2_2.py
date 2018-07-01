@@ -1,5 +1,5 @@
 import MeCab
-from DBConnector import GetCursor
+from dbconnector import GetCursor
 from collections import Counter
 
 tagger = MeCab.Tagger()

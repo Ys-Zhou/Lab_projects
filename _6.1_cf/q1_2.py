@@ -1,5 +1,5 @@
 import pandas as pd
-from DBConnector import GetCursor
+from dbconnector import GetCursor
 
 df = pd.read_table('user_artists.dat')
 values = df.values.tolist()

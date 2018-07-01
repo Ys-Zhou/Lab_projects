@@ -1,4 +1,4 @@
-from DBConnector import GetCursor
+from dbconnector import GetCursor
 
 with GetCursor() as cur:
     with GetCursor() as subcur:

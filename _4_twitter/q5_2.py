@@ -1,5 +1,5 @@
-from TwitterConnector import TwitterConnector
-from DBConnector import GetCursor
+from twconnector import TwitterConnector
+from dbconnector import GetCursor
 
 # https://developer.twitter.com/en/docs/accounts-and-users/follow-search-get-users/api-reference/get-friends-ids
 url = 'https://api.twitter.com/1.1/friends/ids.json'

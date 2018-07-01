@@ -1,5 +1,5 @@
-from TwitterConnector import TwitterConnector
-from DBConnector import GetCursor
+from twconnector import TwitterConnector
+from dbconnector import GetCursor
 
 
 def get_tweets(screen_name: str, count: int = 100):

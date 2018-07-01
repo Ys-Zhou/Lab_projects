@@ -1,6 +1,6 @@
 import MeCab
 import threading
-from DBConnector import GetCursor
+from dbconnector import GetCursor
 
 # Get tagger
 tagger = MeCab.Tagger()

@@ -1,5 +1,5 @@
-from TwitterConnector import TwitterConnector
-from DBConnector import GetCursor
+from twconnector import TwitterConnector
+from dbconnector import GetCursor
 
 # https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline
 url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
