@@ -28,3 +28,24 @@ CREATE PROCEDURE upred(IN pid INT)
     ORDER BY pred DESC
     LIMIT 5;
   END;
+
+CREATE PROCEDURE upredforall()
+  BEGIN
+    DECLARE hasmore INT DEFAULT TRUE;
+    DECLARE pid INT;
+    DECLARE icur CURSOR FOR SELECT DISTINCT uid
+                            FROM rating;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET hasmore = FALSE;
+    OPEN icur;
+    FETCH icur
+    INTO pid;
+    WHILE hasmore DO
+      CALL upred(pid);
+      FETCH icur
+      INTO pid;
+    END WHILE;
+    CLOSE icur;
+  END;
+
+CALL upred(2);
+CALL upredforall();

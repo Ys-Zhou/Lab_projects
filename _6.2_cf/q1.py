@@ -1,5 +1,3 @@
-# Best data structure without using multi-table query
-import time
 from dbconnector import GetCursor
 
 with GetCursor() as cur:
@@ -39,10 +37,6 @@ def upred(user_a: int, rec_limit: int) -> list:
     return pred_list[:rec_limit]
 
 
-start = time.time()
-
 for user in rating_dict.keys():
     print(user)
     print(upred(user, 5))
-
-print(time.time() - start)  # run time = 446.08
