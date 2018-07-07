@@ -5,7 +5,7 @@ with GetCursor() as cur:
     query = 'SELECT * FROM rating'
     cur.execute(query)
 
-    # [[<user>, <item>, <weight>]] -> {<user>: [(<item>, <weight>)]}
+    # [[<user>, <item>, <weight>]] -> {<user>: [[<item>, <weight>]]}
     rating_dict = dict()
 
     for row in cur:

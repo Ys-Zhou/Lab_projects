@@ -5,11 +5,11 @@ with GetCursor() as cur:
     query = 'SELECT * FROM artsim'
     cur.execute(query)
 
-    # [[<item>, <item>, <sim>]] -> {<item_a>: [(<item_b>, <sim>)]}
+    # [[<item>, <item>, <sim>]] -> {<item_a>: [[<item_b>, <sim>]]}
     sim_dict = dict()
 
     for row in cur:
-        sim_dict.setdefault(row[0], []).append([row[1], row[2]])
+        sim_dict.setdefault(row[0], []).append(row[1:3])
         sim_dict.setdefault(row[1], []).append([row[0], row[2]])
 
     # Step 2: calculate predictions for each user
@@ -35,8 +35,9 @@ with GetCursor() as cur:
 
         known_items.append(row[1])
 
-        # pair:: [<item_b>, <sim>]
-        for pair in sim_dict[row[1]]:
-            pred_val = pred_dict.setdefault(pair[0], [0, 0])
-            pred_val[0] += row[2] * pair[1]
-            pred_val[1] += pair[1]
+        if row[1] in sim_dict:
+            # pair:: [<item_b>, <sim>]
+            for pair in sim_dict[row[1]]:
+                pred_val = pred_dict.setdefault(pair[0], [0, 0])
+                pred_val[0] += row[2] * pair[1]
+                pred_val[1] += pair[1]
