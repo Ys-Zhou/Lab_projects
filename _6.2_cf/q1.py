@@ -18,19 +18,19 @@ def upred(user_a: int, rec_limit: int) -> list:
     # pred_dict:: {<item>: [<rating_sum>, <sim_sum>]}
     pred_dict = dict()
 
-    with GetCursor() as cur1:
-        query1 = ('SELECT userb, sim FROM usersim WHERE usera = %d UNION '
+    with GetCursor() as cur_:
+        query_ = ('SELECT userb, sim FROM usersim WHERE usera = %d UNION '
                   'SELECT usera, sim FROM usersim WHERE userb = %d') % (user_a, user_a)
-        cur1.execute(query1)
+        cur_.execute(query_)
 
-        # row1:: [<user_b>, <sim>]
-        for row1 in cur1:
+        # row_:: [<user_b>, <sim>]
+        for row_ in cur_:
             # pair:: [<item>, <weight>]
-            for pair in rating_dict[row1[0]]:
+            for pair in rating_dict[row_[0]]:
                 if pair[0] not in known_tuple:
-                    pred_list = pred_dict.setdefault(pair[0], [0, 0])
-                    pred_list[0] += row1[1] * pair[1]
-                    pred_list[1] += row1[1]
+                    pred_val = pred_dict.setdefault(pair[0], [0, 0])
+                    pred_val[0] += row_[1] * pair[1]
+                    pred_val[1] += row_[1]
 
     pred_list = [[k, v[0] / v[1]] for k, v in pred_dict.items()]
     pred_list.sort(key=lambda x: x[1], reverse=True)
