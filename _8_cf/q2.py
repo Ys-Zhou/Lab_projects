@@ -1,8 +1,13 @@
+# This program is a sample to calculate MAE for all users
+
 from dbconnector import GetCursor
+
+available_table = ['artsim', 'jac_asim', 'cos_asim']
+table = available_table[0]
 
 with GetCursor() as cur:
     # Step 1: create similarity dict
-    query = 'SELECT * FROM artsim'
+    query = 'SELECT * FROM %s' % table
     cur.execute(query)
 
     # [[<item>, <item>, <sim>]] -> {<item_a>: [[<item_b>, <sim>]]}

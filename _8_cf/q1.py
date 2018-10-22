@@ -1,4 +1,9 @@
+# This program is a sample to calculate MAE for all users
+
 from dbconnector import GetCursor
+
+available_table = ['usersim', 'jac_usim', 'cos_usim']
+table = available_table[0]
 
 with GetCursor() as cur:
     # Step 1: create rating dict
@@ -12,8 +17,8 @@ with GetCursor() as cur:
         rating_dict.setdefault(row[0], []).append(row[1:3])
 
     # Step 2: calculate predictions for each user
-    query = ('SELECT usera, userb, sim FROM usersim UNION '
-             'SELECT userb, usera, sim FROM usersim ORDER BY usera')
+    query = ('SELECT usera, userb, sim FROM %s UNION '
+             'SELECT userb, usera, sim FROM %s ORDER BY usera') % (table, table)
     cur.execute(query)
 
     # MAE values
